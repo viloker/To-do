@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Forms</title>
+</head>
+<body>
+<h1>Add your tasks here </h1>
+
+<form method="post">
+    {%csrf_token%}
+    {{form}}
+    <input type="submit">
+</form>
+
+
+<ul>
+    {% if not tasks%}
+    <h2>You not have tasks</h2>
+    {%endif%}
+
+    {% for task in tasks %}
+    <li>
+        <input type="checkbox">
+        {{task}}
+        <form method="post" action="{% url 'del_task' forloop.counter0 %}">
+            {% csrf_token %}
+            <button type="submit" >Del</button>
+        </form>
+    </li>
+
+    {% endfor %}
+</ul>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Task</title>
+</head>
+<body>
+<h1>Here you add your tasks</h1>
+<form method="POST">
+    {% csrf_token%}
+    <label for="InputTask">Your task:</label>
+    <input type="text" id="InputTask" name="InputTask">
+    <input type="submit", value="Submit">
+</form>
+
+<a href="{% url 'show_tasks'%}">Look tasks</a>
+</body>
+</html>

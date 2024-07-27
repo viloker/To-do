@@ -2,9 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>Your tasks</title>
 </head>
 <body>
-
+<h1>Your tasks</h1>
+<ul>
+    {%if tasks %}
+        {% for task in tasks%}
+            <p>{{task}}</p>
+            <form method="post" action="{% url 'delete_task' task %}">
+                {% csrf_token %}
+                <input value="delete" type="submit">
+            </form>
+        {% endfor%}
+    {%else%}
+        <h2>You are not have some tasks</h2>
+    {%endif%}
+</ul>
+<a href="{% url 'add_task' %}">Add task</a>
 </body>
 </html>

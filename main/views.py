@@ -14,6 +14,7 @@ def check_user(request):
 
 
 def log_in(request):
+    try_again = False
     if request.method == "POST":
         form = forms.Create_User(request.POST)
 
@@ -25,7 +26,9 @@ def log_in(request):
             user = models.search_user(request.session['username'])
 
             if user:
-                request.session['tasks'] = models.get_tasks(user.get('username'))
+                if models.correct_password(user, form.cleaned_data['password']):
+                    request.session['tasks'] = models.get_tasks(user.get('username'))
+                try_again = True
             else:
                 models.add_user(request.session.get('username'), form.cleaned_data['password'])
                 request.session['tasks'] = []
@@ -33,13 +36,23 @@ def log_in(request):
             return redirect('show_tasks')
 
     form = forms.Create_User()
-    return render(request, 'log_in.html', {'form': form})
+    return render(request, 'log_in.html', {'form': form, 'try_again': try_again})
 
 
-def add_task(reqeust, task):
-    ...
+def add_task(request):
+    if request.method == 'POST':
+        task = request.POST.get('InputTask', '')
+
+        models.add_task(request.session.get('username'), task)
+        request.session['tasks'] = models.get_tasks(request.session.get('username'))
+    return render(request, 'add_task.html')
 
 
-def show_tasks(reqeust):
-    print(reqeust.session.get('tasks'))
-    return HttpResponse(f'show_tasks')
+def delete_task(request, task):
+    models.del_task(request.session.get('username'), task)
+    request.session['tasks'] = models.get_tasks(request.session.get('username'))
+    return redirect('show_tasks')
+
+def show_tasks(request):
+    tasks = request.session.get('tasks')
+    return render(request, 'show_tasks.html', {'tasks':tasks})

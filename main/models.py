@@ -3,7 +3,6 @@ from django.db import models
 import json
 
 
-
 def _get_users():
     with open('main/db.json', 'r') as file:
         file = json.load(file)
@@ -25,9 +24,16 @@ def search_user(username: str) -> bool | dict:
     return False
 
 
+def correct_password(user: dict, password) -> bool:
+    if user['password'] == hash(password):
+        return True
+
+    return False
+
+
 def add_user(username: str, password: int) -> None:
     list_user = _get_users()
-    user = {"username": username, "password": password, "tasks": []}
+    user = {"username": username, "password": hash(password), "tasks": []}
     list_user.append(user)
 
     _write_to_db(list_user)
@@ -55,6 +61,5 @@ def del_task(username: str, task: str) -> None:
     for user in users:
         if user['username'] == username:
             user['tasks'].remove(task)
-
             _write_to_db(users)
             break

@@ -1,17 +1,1 @@
-[
-  {
-    "username": "111",
-    "password": "111",
-    "tasks": []
-  },
-  {
-    "username": "user1",
-    "password": "password",
-    "tasks": []
-  },
-  {
-    "username": "viloker",
-    "password": 5199264002350547695,
-    "tasks": []
-  }
-]
+[{"username": "111", "password": "111", "tasks": []}, {"username": "user1", "password": "password", "tasks": []}, {"username": "viloker", "password": 5199264002350547695, "tasks": ["do some thing"]}, {"username": "slavik", "password": -3016010376586258575, "tasks": []}]
